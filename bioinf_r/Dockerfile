@@ -50,6 +50,7 @@ RUN conda install mamba -n base -c conda-forge && \
     r-ape \
     r-phangorn \
     bioconductor-ggtree \
+    bioconductor-annotationhub \
     r-ggdendro \
     r-gridextra \
     r-gtable \
@@ -60,6 +61,10 @@ RUN conda install mamba -n base -c conda-forge && \
     r-testthat \
     bioconductor-noiseq \
     pyrpipe -y
+
+RUN R -e "BiocManager::install('limma')"
+RUN R -e "BiocManager::install('GO.db')"
+RUN R -e "BiocManager::install('topGO')"
 
 COPY /entrypoint.sh /opt/conda/bin/entrypoint.sh
 RUN chmod a+x /opt/conda/bin/entrypoint.sh
