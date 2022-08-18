@@ -28,7 +28,9 @@ RUN conda install mamba -n base -c conda-forge && \
 #	conda install -n base -c conda-forge -c bioconda r-base r-phanghorn && \
     mamba install -n base -c conda-forge -c r -c bioconda python=3.8 \
 #    mamba install -n base -c conda-forge -c bioconda python=3.8 \
-	r-base \
+	r-base -y
+
+#RUN mamba install -n base -c conda-forge -c bioconda \
     #	r-base=4.2.* \
     #fastqc \
     #multiqc \
@@ -39,39 +41,48 @@ RUN conda install mamba -n base -c conda-forge && \
     #rsem \
     #htseq \
     #tophat \
-    bioconductor-deseq2 \
-    bioconductor-edger \
-    r-pheatmap \
-    r-ggplot2 \
-    r-nlme \
-    r-phytools \
-    r-devtools \
-    r-viridis \
-    r-plyr \
-    r-tidyverse \
-    r-car \
-    r-openxlsx \
-    r-emmeans \
-    r-mumin \
-    r-ape \
-    r-phangorn \
-    bioconductor-ggtree \
-    bioconductor-annotationhub \
-    r-ggdendro \
-    r-gridextra \
-    r-gtable \
-    r-ggfortify \
-    r-foreach \
-    r-doparallel \
-    bioconductor-mygene \
-    r-testthat \
-    bioconductor-noiseq \
-    pyrpipe -y
+    #bioconductor-deseq2 \
+#    bioconductor-edger \
+    #r-pheatmap \
+#    r-ggplot2 \
+#    r-nlme \
+#    r-phytools \
+#    r-devtools \
+#    r-viridis \
+#    r-plyr \
+#    r-tidyverse \
+#    r-car \
+    #r-openxlsx \
+#    r-emmeans \
+#    r-mumin \
+#    r-ape \
+#    r-phangorn \
+#    bioconductor-ggtree \
+#    bioconductor-annotationhub \
+#    r-ggdendro \
+#    r-gridextra \
+#    r-gtable \
+#    r-ggfortify \
+#    r-foreach \
+#    r-doparallel \
+#    bioconductor-mygene \
+#    r-testthat \
+#    bioconductor-noiseq \
+#    pyrpipe -y
+
+## build is *much* slower than with mamba, but it gets around the bug of force installing r-base 4.1.3 overtop of r-base 4.2.1
+RUN R -e "install.packages(c('tidyverse','ggplot2','nlme','phytools','plyr','viridis','emmeans','MuMIn','ggdendro','gridExtra','gtable','ggfortify','foreach','doParallel','testthat','openxlsx'), dependencies=TRUE, repos='https://cloud.r-project.org')"
 
 RUN R -e "install.packages('BiocManager', dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN R -e "BiocManager::install('limma')"
 RUN R -e "BiocManager::install('GO.db')"
 RUN R -e "BiocManager::install('topGO')"
+RUN R -e "BiocManager::install('edgeR')"
+RUN R -e "BiocManager::install('DESeq2')"
+RUN R -e "BiocManager::install('ggtree')"
+RUN R -e "BiocManager::install('AnnotationHub')"
+RUN R -e "BiocManager::install('mygene')"
+RUN R -e "BiocManager::install('NOISeq')"
 
 COPY /entrypoint.sh /opt/conda/bin/entrypoint.sh
 RUN chmod a+x /opt/conda/bin/entrypoint.sh
