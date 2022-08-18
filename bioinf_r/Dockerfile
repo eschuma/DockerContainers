@@ -24,6 +24,7 @@ ENV PATH=/opt/conda/bin:$PATH
 # install packages to base environment
 RUN conda install mamba -n base -c conda-forge && \
     mamba install -n base -c conda-forge -c r -c bioconda python=3.8 \
+    r-base \
     #fastqc \
     #multiqc \
     #star \
@@ -62,6 +63,8 @@ RUN conda install mamba -n base -c conda-forge && \
     bioconductor-noiseq \
     pyrpipe -y
 
+#RUN R -e "BiocManager::install('limma')"
+RUN R -e "install.packages('BiocManager', dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN R -e "BiocManager::install('limma')"
 RUN R -e "BiocManager::install('GO.db')"
 RUN R -e "BiocManager::install('topGO')"
