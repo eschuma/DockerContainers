@@ -21,10 +21,15 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
 
 ENV PATH=/opt/conda/bin:$PATH
 
+RUN conda update -n base -c defaults conda
+
 # install packages to base environment
 RUN conda install mamba -n base -c conda-forge && \
+#	conda install -n base -c conda-forge -c bioconda r-base r-phanghorn && \
     mamba install -n base -c conda-forge -c r -c bioconda python=3.8 \
-    r-base \
+#    mamba install -n base -c conda-forge -c bioconda python=3.8 \
+	r-base \
+    #	r-base=4.2.* \
     #fastqc \
     #multiqc \
     #star \
@@ -63,7 +68,6 @@ RUN conda install mamba -n base -c conda-forge && \
     bioconductor-noiseq \
     pyrpipe -y
 
-#RUN R -e "BiocManager::install('limma')"
 RUN R -e "install.packages('BiocManager', dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN R -e "BiocManager::install('limma')"
 RUN R -e "BiocManager::install('GO.db')"
