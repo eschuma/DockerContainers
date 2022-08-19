@@ -71,7 +71,12 @@ RUN conda install mamba -n base -c conda-forge && \
 #    pyrpipe -y
 
 ## build is *much* slower than with mamba, but it gets around the bug of force installing r-base 4.1.3 overtop of r-base 4.2.1
-RUN R -e "install.packages(c('tidyverse','ggplot2','nlme','phytools','plyr','viridis','emmeans','MuMIn','ggdendro','gridExtra','gtable','ggfortify','foreach','doParallel','testthat','openxlsx'), dependencies=TRUE, repos='https://cloud.r-project.org')"
+RUN R -e "install.packages(c('ggplot2','nlme','phytools','plyr','viridis','emmeans','MuMIn','ggdendro','gridExtra','gtable','foreach','doParallel','testthat'), dependencies=TRUE, repos='https://cloud.r-project.org')"
+RUN R -e "install.packages('statmod', dependencies=TRUE, repos='http://cran.rstudio.com/')"
+RUN R -e "install.packages('devtools', dependencies=TRUE, repos='http://cran.rstudio.com/')"
+
+#RUN R -e "devtools::install_github('tidyverse/tidyverse')"
+#RUN R -e "devtools::install_github('sinhrks/ggfortify')"
 
 RUN R -e "install.packages('BiocManager', dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN R -e "BiocManager::install('limma')"
@@ -83,6 +88,7 @@ RUN R -e "BiocManager::install('ggtree')"
 RUN R -e "BiocManager::install('AnnotationHub')"
 RUN R -e "BiocManager::install('mygene')"
 RUN R -e "BiocManager::install('NOISeq')"
+RUN R -e "BiocManager::install('org.Dr.eg.db')"
 
 COPY /entrypoint.sh /opt/conda/bin/entrypoint.sh
 RUN chmod a+x /opt/conda/bin/entrypoint.sh
