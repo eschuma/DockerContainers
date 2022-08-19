@@ -25,6 +25,7 @@ ENV PATH=/opt/conda/bin:$PATH
 RUN conda install mamba -n base -c conda-forge && \
     mamba install -n base -c conda-forge -c bioconda python=3.8 \
     fastqc \
+    blast \
     multiqc \
     star \
     trimmomatic \
