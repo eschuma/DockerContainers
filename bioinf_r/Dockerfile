@@ -72,7 +72,7 @@ RUN conda install mamba -n base -c conda-forge && \
 
 ## build is *much* slower than with mamba, but it gets around the bug of force installing r-base 4.1.3 overtop of r-base 4.2.1
 RUN R -e "install.packages(c('ggplot2','nlme','phytools','plyr','viridis','emmeans','MuMIn','ggdendro','gridExtra','gtable','foreach','doParallel','testthat'), dependencies=TRUE, repos='https://cloud.r-project.org')"
-RUN R -e "install.packages('statmod', dependencies=TRUE, repos='http://cran.rstudio.com/')"
+RUN R -e "install.packages(c('statmod', 'ggpubr'), dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('devtools', dependencies=TRUE, repos='http://cran.rstudio.com/')"
 
 #RUN R -e "devtools::install_github('tidyverse/tidyverse')"
@@ -82,6 +82,7 @@ RUN R -e "install.packages('BiocManager', dependencies=TRUE, repos='http://cran.
 RUN R -e "BiocManager::install('limma')"
 RUN R -e "BiocManager::install('GO.db')"
 RUN R -e "BiocManager::install('topGO')"
+RUN R -e "BiocManager::install('ROntoTools')"
 RUN R -e "BiocManager::install('edgeR')"
 RUN R -e "BiocManager::install('DESeq2')"
 RUN R -e "BiocManager::install('ggtree')"
