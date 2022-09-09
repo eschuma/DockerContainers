@@ -91,6 +91,12 @@ RUN R -e "BiocManager::install('mygene')"
 RUN R -e "BiocManager::install('NOISeq')"
 RUN R -e "BiocManager::install('org.Dr.eg.db')"
 
+RUN R -e "ROntoTools::keggPathwayGraphs('pki', verbose = FALSE)"
+RUN R -e "ROntoTools::keggPathwayGraphs('dre', verbose = FALSE)"
+RUN R -e "ROntoTools::keggPathwayGraphs('sfm', verbose = FALSE)"
+
+RUN R -e "install.packages('reshape2', dependencies=TRUE, repos='http://cran.rstudio.com/')"
+
 COPY /entrypoint.sh /opt/conda/bin/entrypoint.sh
 RUN chmod a+x /opt/conda/bin/entrypoint.sh
 
